@@ -11,14 +11,23 @@
     - basic information, authentication method and any authentication tokens are saved in appropriate datastore (Keycloak and/or application JPA)
 - user is redirected to login form
 
-## Login use case
+## Login use case - No valid token / refresh token
 - User navigates to https://mysite.com/login
 - User selects authentication method by clicking on Google / Facebook login link or entering userid/pwd
 - Authentication is validated
+- Tokens are saved for future use
 - Spring User Principal is loaded with information from application Keycloak that matches authentication including any roles defined for that user in Keycloak
 - User is redirected to secured page based on role
     - role: User - user.html
     - role: Admin - admin.html
+
+## Login use case - with valid token / refresh token
+- User navigates to https://mysite.com/login
+- Authentication is validated via existing token
+- Spring User Principal is loaded with information from application Keycloak that matches authentication including any roles defined for that user in Keycloak
+- User is redirected to secured page based on role
+  - role: User - user.html
+  - role: Admin - admin.html
 
 ## Manage Authentication method
 - User navigates to http://mysite.com/auth
