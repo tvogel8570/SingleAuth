@@ -1,0 +1,4 @@
+/postgres/sql/backup/
+self_signed.crt
+self_signed_key.pem
+password.txt
