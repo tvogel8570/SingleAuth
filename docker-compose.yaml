@@ -1,0 +1,144 @@
+version: '3.9'
+
+services:
+  user:
+    container_name: users
+    image: spring-boot-authz
+    depends_on:
+      postgres:
+        condition: service_started
+      keycloak-2:
+        condition: service_started
+    ports:
+      - "8081:9090"
+      - "8003:8003"
+    environment:
+      LOG_LEVEL: debug
+      POSTGRESQL_HOST: postgres
+      JAVA_TOOL_OPTIONS: >
+        -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8003
+    networks:
+      - users
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_PASSWORD: password1
+      POSTGRES_USER: localdevuser
+    networks:
+      - users
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/db.sql
+      - postgres:/var/lib/postgresql/data:rw
+  keycloak-2:
+    container_name: keycloak
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    deploy:
+      mode: replicated
+      replicas: 1
+    ports:
+      - "8080:8080"
+      - "8001:8001"
+    networks:
+      - users
+    volumes:
+      - ./scripts/health-check.sh:/opt/scripts/health-check.sh
+      - ./testing/import:/opt/keycloak/data/import:rw
+    command:
+      - "-v"
+      - "start-dev"
+      - "--import-realm"
+      - "--spi-theme-static-max-age=-1"
+      - "--spi-theme-cache-themes=false"
+      - "--spi-theme-cache-templates=false"
+      - "--spi-x509cert-lookup-nginx-ssl-client-cert=SSL_CLIENT_CERT"
+      - "--spi-x509cert-lookup-nginx-ssl-cert-chain-prefix=CERT_CHAIN"
+      - "--spi-x509cert-lookup-nginx-certificate-chain-length=2"
+      - "--spi-sms-spi-service-test=true"
+    environment:
+      DEBUG: "true"
+      DEBUG_PORT: "*:8001"
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_PASSWORD: "password1"
+      KC_DB_USERNAME: localdevuser
+      KC_DB_URL: "jdbc:postgresql://db:5432/keycloak"
+      "jgroups.dns.query": keycloak
+    healthcheck:
+      retries: 5
+      start_period: 10s
+      test: bash /opt/scripts/health-check.sh
+      timeout: 5s
+  db:
+    container_name: db
+    networks:
+      - users
+    image: postgres:14
+    environment:
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-U", "localdevuser", "-d", "keycloak"]
+      interval: 10s
+    volumes:
+      - postgres1:/var/lib/postgresql/data:rw
+      - ./scripts/create_localdev_db.sql:/docker-entrypoint-initdb.d/create_localdev_db.sql:ro
+  keycloak:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    deploy:
+      mode: replicated
+      replicas: 1
+    ports:
+      - "8080:8080"
+      - "8001:8001"
+    volumes:
+      - ./testing/import:/opt/keycloak/data/import:ro
+      - ./testing/conf/keycloak.conf:/opt/keycloak/conf/keycloak.conf:ro
+      - ./scripts/health-check.sh:/opt/scripts/health-check.sh
+    command:
+      - "-v"
+      - "start"
+      - "--optimized"
+      - "--import-realm"
+      - "--spi-theme-static-max-age=-1"
+      - "--spi-theme-cache-themes=false"
+      - "--spi-theme-cache-templates=false"
+      - "--spi-x509cert-lookup-nginx-ssl-client-cert=SSL_CLIENT_CERT"
+      - "--spi-x509cert-lookup-nginx-ssl-cert-chain-prefix=CERT_CHAIN"
+      - "--spi-x509cert-lookup-nginx-certificate-chain-length=2"
+      - "--spi-sms-spi-service-test=true"
+    environment:
+      DEBUG: "true"
+      DEBUG_PORT: "*:8001"
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_PASSWORD: "password1"
+      KC_DB_USERNAME: localdevuser
+      KC_DB_URL: "jdbc:postgresql://db:5432/keycloak"
+      "jgroups.dns.query": keycloak
+    networks:
+      - users
+    healthcheck:
+      retries: 5
+      start_period: 10s
+      test: bash /opt/scripts/health-check.sh
+      timeout: 5s
+volumes:
+  postgres:
+  postgres1:
+networks:
+  users:
