@@ -2,17 +2,23 @@ server:
   port: 9090
 
 spring:
-  h2:
-    console:
-      enabled: true
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: https://localhost:8443/realms/test/protocol/openid-connect/certs
-#keycloak:
-#  realm: javatechie
-#  auth-server-url: http://localhost:8180/auth
-#  resource: springboot-keycloak
-#  public-client: true
-#  bearer-only: true
+  datasource:
+    url: "jdbc:postgresql://${POSTGRESQL_HOST:localhost}:5432/${POSTGRESQL_DATABASE_NAME:users}?createDatabaseIfNotExist=true"
+    username: "${POSTGRESQL_USERNAME:localdevuser}"
+    password: "${POSTGRESQL_PASSWORD:password1}"
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    table: schema_version
+    enabled: true
+    validate-on-migrate: true
+    baseline-on-migrate: true
+logging:
+  level:
+    root: ${LOG_LEVEL:info}
