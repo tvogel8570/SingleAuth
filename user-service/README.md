@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 # SingleAuth
 
 Starter project to allow multiple Authentication sources to use a single Authorization
@@ -25,10 +23,6 @@ A Spring Boot application that allows a user to login via different providers an
 - Access secured web page for role User based on authorization roles retrieved from local Keycloak server
 - Access secured web page for role Admin based on authorization roles retrieved from local Keycloak server
 
-=======
-# Spring Boot Employee Management Application
-=======
->>>>>>> 5507a74 (Additions to store users got from Keycloak)
 
 Running the project is done via `make` commands
 
@@ -55,25 +49,4 @@ In order to support social login we need to use [ngrok](https://ngrok.com/) and 
 ```ngrok http 8080```
 
 Also the URL got from ngrok needs to be added under realm frontend URL :
-
-<<<<<<< HEAD
-### Azure AD Configuration
-
-1. Set up Azure AD as an identity provider.
-2. Configure the Azure AD application and permissions.
-3. Assign roles (e.g., "admin", "user") to Azure AD groups for authorization.
-
-## Prerequisites
-
-- Java JDK 8 or higher
-- Maven
-
-## Build and Run
-
-1. Clone the repository.
-2. Navigate to the project directory.
-3. Run the following command to build the application:
->>>>>>> 53fd613 (Initial commit)
-=======
 ![img_1.png](img_1.png)
->>>>>>> 5507a74 (Additions to store users got from Keycloak)
