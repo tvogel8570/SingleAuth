@@ -1,0 +1,6 @@
+{
+  "themes": [{
+    "name" : "thomas-darimont-internal",
+    "types": [ "login","account", "email" ]
+  }]
+}

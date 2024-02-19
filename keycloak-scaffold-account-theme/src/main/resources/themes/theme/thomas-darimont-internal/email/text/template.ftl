@@ -1,0 +1,5 @@
+<#macro emailLayout>
+------------
+<#nested>
+------------
+</#macro>
