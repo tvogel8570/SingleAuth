@@ -32,14 +32,9 @@ Running the project is done via `make` commands
 
 ---
 
-For local development, but since we'll use social login this won't be needed.
+To access Keycloak admin use localhost:8090 as with ngrok's domain you won't be able to access admin console.
 
-Change /etc/hosts entry to point to keycloak docker container:
-
-```/ets/hosts
-127.0.0.1       keycloak
-```
-![img.png](img.png)
+http://localhost:8090/admin/master/console/#/master
 
 ---
 

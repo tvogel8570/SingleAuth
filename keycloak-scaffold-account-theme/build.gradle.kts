@@ -35,10 +35,13 @@ tasks {
     val createJarFromResources by registering(Jar::class) {
         val resourcesDir = project.file("src/main/resources/themes")
         from(resourcesDir)
+        // exclude the source files from theme in built out jar file
+        exclude("/theme/timothy-vogel-internal/account/src/")
         into("META-INF") {
-            from("src/main/resources/themes/theme/thomas-darimont-internal/META-INF")
+            from("src/main/resources/themes/theme/timothy-vogel-internal/META-INF")
         }
-        archiveBaseName.set("thomas-darimont-internal")
+
+        archiveBaseName.set("timothy-vogel-internal")
         archiveVersion.set("")
         archiveExtension.set("jar")
     }

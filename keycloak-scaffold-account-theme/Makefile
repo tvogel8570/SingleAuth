@@ -9,5 +9,5 @@ help:
 
 # Package
 package:
-	@./gradlew shadowJar && docker buildx build . -t keycloak-account-modified
-
+	@cd src/main/resources/themes/theme/timothy-vogel-internal/account/src/ && npm i && npm run build
+	@./gradlew createJarFromResources && docker buildx build . -t keycloak-account-modified
