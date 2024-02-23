@@ -24,7 +24,7 @@ public class KeycloakConfiguration {
     return ClientRegistration.withRegistrationId(KEYCLOAK_REGISTRATION_ID)
         .clientId("spring-boot-app")
         .providerConfigurationMetadata(Map.of("end_session_endpoint", "https://cb0f-93-87-220-158.ngrok-free.app/realms/multiple-auth/protocol/openid-connect/logout"))
-        .clientSecret("YJkRElgCvEZ6DdiKDDhgnWBLRwvY7Jvu")
+        .clientSecret("VRx9rTznz9Idv7w6rG9FJTZHRxuyPL23")
         .issuerUri("https://cb0f-93-87-220-158.ngrok-free.app/realms/multiple-auth")
         .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)

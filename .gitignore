@@ -9,3 +9,9 @@ out/
 !**/src/test/**/out/
 /target/
 /.idea/
+
+/user-service/target/
+/user-service/.idea/
+
+/keycloak-scaffold-account-theme/src/main/resources/themes/theme/timothy-vogel-internal/account/src/node_modules
+/keycloak-scaffold-account-theme/src/main/resources/themes/theme/timothy-vogel-internal/account/src/web_modules

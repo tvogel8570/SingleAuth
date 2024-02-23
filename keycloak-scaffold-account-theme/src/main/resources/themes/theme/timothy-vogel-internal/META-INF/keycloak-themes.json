@@ -1,0 +1,6 @@
+{
+  "themes": [{
+    "name" : "timothy-vogel-internal",
+    "types": [ "login","account", "email" ]
+  }]
+}

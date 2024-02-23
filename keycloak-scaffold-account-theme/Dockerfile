@@ -1,10 +1,9 @@
-FROM quay.io/keycloak/keycloak:22.0.1
+FROM quay.io/keycloak/keycloak:23.0.1
 WORKDIR /opt/keycloak/
 # This is to invalidate the layer cache for COPY...
 RUN ls
 ARG VERSION=0.0.1-SNAPSHOT
-COPY build/libs/keycloak-scaffold-${VERSION}-all.jar providers/
-COPY build/libs/thomas-darimont-internal.jar providers/
+COPY build/libs/timothy-vogel-internal.jar providers/
 RUN ./bin/kc.sh build  \
     --db=postgres \
     --health-enabled=true \
@@ -13,5 +12,4 @@ RUN ./bin/kc.sh build  \
     --features-disabled=ciba,client-policies,par,step-up-authentication \
     --spi-well-known-openid-configuration-include-client-scopes=false \
     --cache=ispn \
-    --cache-stack=kubernetes \
-    --spi-x509cert-lookup-provider=nginx
+    --cache-stack=kubernetes
