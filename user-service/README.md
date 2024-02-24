@@ -45,3 +45,11 @@ In order to support social login we need to use [ngrok](https://ngrok.com/) and 
 
 Also the URL got from ngrok needs to be added under realm frontend URL :
 ![img_1.png](img_1.png)
+
+---
+
+Note around realm.json that's getting imported in Keycloak; the secrets are masked so client secrets need to be regenerated 
+where needed.
+
+Example: secret for Google identity provider is exported as ****** so needs to be fixed.
+![img_2.png](img_2.png)

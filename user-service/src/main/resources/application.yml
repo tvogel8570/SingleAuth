@@ -19,6 +19,16 @@ spring:
     enabled: true
     validate-on-migrate: true
     baseline-on-migrate: true
+
+
+client:
+  id: "spring-boot-app"
+  secret: ${SPRING_BOOT_APP_SECRET:VRx9rTznz9Idv7w6rG9FJTZHRxuyPL23}
+
+keycloak:
+  base:
+    url: ${KEYCLOAK_ISSUER_URI:https://f86a-93-86-51-26.ngrok-free.app/realms/multiple-auth}
+
 logging:
   level:
     root: ${LOG_LEVEL:info}
