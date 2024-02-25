@@ -14,6 +14,8 @@ services:
     ports:
       - "8081:9090"
       - "8003:8003"
+    env_file:
+      - .env
     environment:
       LOG_LEVEL: info
       POSTGRESQL_HOST: postgres
@@ -50,7 +52,7 @@ services:
     volumes:
       - ./scripts/health-check.sh:/opt/scripts/health-check.sh
       - ./testing/import:/opt/keycloak/data/import:rw
-      - ./testing/conf/keycloak.conf:/opt/keycloak/conf/keycloak.conf:ro
+#      - ./testing/conf/keycloak.conf:/opt/keycloak/conf/keycloak.conf:ro
     command:
       - "-v"
       - "start-dev"
@@ -62,14 +64,19 @@ services:
       - "--spi-x509cert-lookup-nginx-ssl-cert-chain-prefix=CERT_CHAIN"
       - "--spi-x509cert-lookup-nginx-certificate-chain-length=2"
       - "--spi-sms-spi-service-test=true"
+    env_file:
+      - .env
     environment:
       DEBUG: "true"
       DEBUG_PORT: "*:8001"
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_DB: postgres
+      KC_PROXY: edge
       KC_DB_PASSWORD: "password1"
       KC_DB_USERNAME: localdevuser
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
+      KC_HOSTNAME_ADMIN: ${KEYCLOAK_HOSTNAME}
       KC_DB_URL: "jdbc:postgresql://db:5432/keycloak"
       "jgroups.dns.query": keycloak
     healthcheck:
