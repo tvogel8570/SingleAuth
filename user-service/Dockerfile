@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:22.0.1
+FROM quay.io/keycloak/keycloak:23.0.1
 WORKDIR /opt/keycloak/
 # This is to invalidate the layer cache for COPY...
 RUN ls

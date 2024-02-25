@@ -23,7 +23,7 @@ spring:
 
 client:
   id: "spring-boot-app"
-  secret: ${SPRING_BOOT_APP_SECRET:VRx9rTznz9Idv7w6rG9FJTZHRxuyPL23}
+  secret: ${SPRING_BOOT_APP_SECRET}
 
 keycloak:
   base:

@@ -37,7 +37,7 @@ services:
       - postgres:/var/lib/postgresql/data:rw
   keycloak-2:
     container_name: keycloak
-    image: docker.io/library/keycloak-account-modified
+    image: quay.io/keycloak/keycloak:23.0.1
     depends_on:
       db:
         condition: service_healthy
@@ -86,7 +86,7 @@ services:
       timeout: 5s
   keycloak-admin:
     container_name: keycloak-admin
-    image: docker.io/library/keycloak-account-modified
+    image: quay.io/keycloak/keycloak:23.0.1
     depends_on:
       db:
         condition: service_healthy
@@ -104,9 +104,12 @@ services:
     command:
       - "-v"
       - "start-dev"
+      - "--import-realm"
       - "--spi-theme-static-max-age=-1"
       - "--spi-theme-cache-themes=false"
       - "--spi-theme-cache-templates=false"
+    env_file:
+      - .env
     environment:
       DEBUG: "true"
       DEBUG_PORT: "*:8002"

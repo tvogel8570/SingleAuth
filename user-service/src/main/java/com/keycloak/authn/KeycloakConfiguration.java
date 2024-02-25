@@ -38,6 +38,10 @@ public class KeycloakConfiguration {
         .clientSecret(clientConfiguration.secret)
         .clientName("Keycloak")
         .scope("openid", "profile")
+        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+        .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+        .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
+        .userNameAttributeName(IdTokenClaimNames.SUB)
         .providerConfigurationMetadata(Map.of("end_session_endpoint", baseUrl + "/protocol/openid-connect/logout"))
         .build();
   }
